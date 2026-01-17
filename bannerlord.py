@@ -162,12 +162,20 @@ class BannerLord:
         else:
             print("🖼️  Step 2: Creating simple background...")
             from PIL import Image, ImageDraw
+            
+            # Gradient color constants
+            GRADIENT_BASE_R = 44
+            GRADIENT_RANGE_R = 30
+            GRADIENT_BASE_G = 62
+            GRADIENT_BASE_B = 80
+            
             background = Image.new('RGB', (width, height), color='#2c3e50')
             draw = ImageDraw.Draw(background)
             # Add gradient effect
             for i in range(height):
-                shade = int(44 + (i / height) * 30)
-                color = f'#{shade:02x}{62 + i//20:02x}{80:02x}'
+                shade = int(GRADIENT_BASE_R + (i / height) * GRADIENT_RANGE_R)
+                g_val = GRADIENT_BASE_G + i // 20
+                color = f'#{shade:02x}{g_val:02x}{GRADIENT_BASE_B:02x}'
                 draw.line([(0, i), (width, i)], fill=color)
             
             bg_path = self.output_dir / f"{output_name}_background.png"

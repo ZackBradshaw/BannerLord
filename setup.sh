@@ -15,8 +15,8 @@ echo "Checking Python version..."
 python_version=$(python3 --version 2>&1 | awk '{print $2}')
 echo "Found Python $python_version"
 
-# Check if Python 3.8+
-if ! python3 -c 'import sys; assert sys.version_info >= (3,8)' 2>/dev/null; then
+# Check if Python 3.8+ using a more robust method
+if ! python3 -c 'import sys; exit(0 if sys.version_info >= (3,8) else 1)'; then
     echo "❌ Error: Python 3.8 or higher is required"
     exit 1
 fi

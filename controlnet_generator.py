@@ -79,9 +79,11 @@ class ControlNetBannerGenerator:
         )
         self.pipeline = self.pipeline.to(self.device)
         
-        # Enable memory optimizations
-        if self.device == "cuda":
-            self.pipeline.enable_model_cpu_offload()
+        # Enable memory optimizations for CUDA
+        # Note: enable_model_cpu_offload() can be used for low VRAM scenarios
+        # Uncomment if experiencing out-of-memory errors:
+        # if self.device == "cuda":
+        #     self.pipeline.enable_model_cpu_offload()
         
         print("Model loaded successfully!")
     

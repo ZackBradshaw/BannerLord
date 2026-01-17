@@ -32,13 +32,34 @@ class BannerCompositor:
         Returns:
             Font object
         """
-        # Try to load specified font
-        font_paths = [
-            f"/usr/share/fonts/truetype/dejavu/DejaVu{font_family.title()}.ttf",
-            f"/usr/share/fonts/truetype/liberation/Liberation{font_family.title()}.ttf",
-            "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
-            "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
-        ]
+        import platform
+        system = platform.system()
+        
+        # Try to load specified font with cross-platform paths
+        font_paths = []
+        
+        # Linux paths
+        if system == "Linux":
+            font_paths.extend([
+                f"/usr/share/fonts/truetype/dejavu/DejaVu{font_family.title()}.ttf",
+                f"/usr/share/fonts/truetype/liberation/Liberation{font_family.title()}.ttf",
+                "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+                "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+            ])
+        # macOS paths
+        elif system == "Darwin":
+            font_paths.extend([
+                f"/System/Library/Fonts/{font_family.title()}.ttc",
+                "/System/Library/Fonts/Helvetica.ttc",
+                "/System/Library/Fonts/Arial.ttf",
+            ])
+        # Windows paths
+        elif system == "Windows":
+            font_paths.extend([
+                f"C:\\Windows\\Fonts\\{font_family}.ttf",
+                "C:\\Windows\\Fonts\\arial.ttf",
+                "C:\\Windows\\Fonts\\calibri.ttf",
+            ])
         
         for font_path in font_paths:
             if os.path.exists(font_path):
